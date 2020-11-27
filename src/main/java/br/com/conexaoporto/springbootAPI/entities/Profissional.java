@@ -12,34 +12,48 @@ import javax.persistence.PrimaryKeyJoinColumn;
 public class Profissional extends Usuario {
 	
 	
-	@Column(name="area_de_atuacao")
-	private String areaDeAtuacao;
+	@Column(name="area_de_interesse")
+	private String areaDeInteresse;
 	
 	@Column(name="ocupacao")
 	private String ocupacao;
 	
+	@Column(name="nivel_de_escolaridade")
+	private String nivelDeEscolaridade;
+	
 	@ManyToMany
 	private Set<Curso> cursos;
 	
+	public Profissional() {
+		super();
+	}
+
 	public Profissional(String nome, String email, String senha) {
 		super(nome, email, senha);
-		// TODO Auto-generated constructor stub
+	}
+	
+	public String getNivelDeEscolaridade() {
+		return nivelDeEscolaridade;
 	}
 
-	public Profissional(String nome, String email, String senha, String areaDeAtuacao, String ocupacao) {
-		super(nome, email, senha);
-		this.areaDeAtuacao = areaDeAtuacao;
-		this.ocupacao = ocupacao;
+	public void setNivelDeEscolaridade(String nivelDeEscolaridade) {
+		this.nivelDeEscolaridade = nivelDeEscolaridade;
 	}
 
-
-
-	public String getAreaDeAtuacao() {
-		return areaDeAtuacao;
+	public Set<Curso> getCursos() {
+		return cursos;
 	}
 
-	public void setAreaDeAtuacao(String areaDeAtuacao) {
-		this.areaDeAtuacao = areaDeAtuacao;
+	public void setCursos(Set<Curso> cursos) {
+		this.cursos = cursos;
+	}
+
+	public String getAreaDeInteresse() {
+		return areaDeInteresse;
+	}
+
+	public void setAreaDeInteresse(String areaDeInteresse) {
+		this.areaDeInteresse = areaDeInteresse;
 	}
 
 	public String getOcupacao() {
