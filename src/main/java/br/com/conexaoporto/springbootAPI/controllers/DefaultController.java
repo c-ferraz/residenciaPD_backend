@@ -11,7 +11,7 @@ public class DefaultController {
 	
 	@GetMapping(value= {"/", "/index"})//redireciona todos o requests GET do diretorio padrão (/) e (/index)
 	public String indexRedirect(){
-		return "index";
+		return "home";
 	}
 	
 }
