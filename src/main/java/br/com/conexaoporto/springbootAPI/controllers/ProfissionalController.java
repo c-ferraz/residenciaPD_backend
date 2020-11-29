@@ -1,63 +1,62 @@
 package br.com.conexaoporto.springbootAPI.controllers;
 
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import br.com.conexaoporto.springbootAPI.model.entities.Profissional;
+import br.com.conexaoporto.springbootAPI.model.repositories.ProfissionalRepository;
 
-import br.com.conexaoporto.springbootAPI.entities.Profissional;
-import br.com.conexaoporto.springbootAPI.repositories.ProfissionalRepository;
-
-@RestController
+@Controller
 @RequestMapping
 public class ProfissionalController {
 	
 	@Autowired
-	ProfissionalRepository profissionalRepo;
+	ProfissionalRepository profissionalRepo;//contem os metodos que vão fazer o CRUD
 	
-	@PostMapping("/CadastroProfissional")//EXEMPLO CADASTRO
-	private Profissional novoProfissional(
-			@RequestParam(name= "nome") String nome,
-			@RequestParam(name= "email") String email,
-			@RequestParam(name= "senha") String senha) {
-		Profissional profissional = new Profissional(nome, email, senha);
-		profissionalRepo.save(profissional);
-		return profissional;
+	@GetMapping("/NovoProfissional")//<- anotação para tratamento de metodos GET
+	public String mostrarCadastro(Profissional profissional) {//A magica do spring entende a 
+		return "novo-profissional";//o retorno deve ser uma string com o nome da pagina que você quer acessar
 	}
 	
-	@PostMapping("/PesquisaProfissional")//TODO: PESQUISA POR EMAIL
-	private Profissional getProfissional(@RequestParam(name="Id") long id) {
-		Profissional profissional = profissionalRepo.findById(id); //TODO: SE ESSE CAMPO ESTIVER EM BRANCO ELE DA ERRO
-		//se não encontrar nenhum retornar null
-		if (profissional == null) {
-			return null;
+	//EXEMPLO CADASTRO
+	@PostMapping("/CadastroProfissional")//<- anotação para tratamento de metodos POST
+	private String novoProfissional(@Valid Profissional profissional, BindingResult result, Model model) { //BidingResult para validação de dados, Model é para passar dados de volta para o thymeleaf
+		if (profissionalRepo.findByEmail(profissional.getEmail()) != null) {
+			result.addError(new ObjectError("profissional.email", "email já cadastrado"));//TODO: descobrir como retornar esse erro para o thymeleaf e exibir na pagina
+			//System.out.println(result.hasFieldErrors("profissional.email"));
 		}
-		return profissional;
+		
+		if (result.hasErrors()) {
+			return "novo-profissional";
+		}
+		profissionalRepo.save(profissional);//salva no banco
+		return "redirect:/ListarProfissionais";
 	}
 	
-	@PostMapping("/AtualizarProfissional")
-	private Profissional atualizarProfissional(
-			@RequestParam(name= "id") long id,
-			@RequestParam(name= "nome") String nome,			
-			@RequestParam(name= "telefone") String telefone,
-			@RequestParam(name= "senha") String senha,
-			@RequestParam(name= "descricao") String descricao,
-			@RequestParam(name= "areaDeInteresse") String areaDeInteresse,
-			@RequestParam(name= "ocupacao") String ocupacao,
-			@RequestParam(name= "nivelDeEscolaridade") String nivelDeEscolaridade) {
-		Profissional profissional = getProfissional(id); //encontra os dados do ususario usando o ID
-		//Atualiza os valores do objeto com os mais recente, se o valor informado estiver em branco ele mandem o valor anterior
-		profissional.setNome(!nome.isEmpty() ? nome : profissional.getNome());
-		profissional.setSenha(!senha.isEmpty() ? senha : profissional.getSenha());
-		profissional.setTelefone(!telefone.isEmpty() ? telefone : profissional.getTelefone());
-		profissional.setDescricao(!descricao.isEmpty() ? descricao : profissional.getDescricao());
-		profissional.setAreaDeInteresse(!areaDeInteresse.isEmpty() ? areaDeInteresse : profissional.getAreaDeInteresse());
-		profissional.setOcupacao(!ocupacao.isEmpty() ? ocupacao : profissional.getOcupacao());		
-		profissional.setNivelDeEscolaridade(!nivelDeEscolaridade.isEmpty() ? nivelDeEscolaridade : profissional.getNivelDeEscolaridade());
-		
-		//atualiza (salva) os valores no banco
-		profissionalRepo.save(profissional);
-		return profissional;
+	//EXEMPLO LISTAR DADOS (todos)
+	@GetMapping("/ListarProfissionais")
+	public String listaProfissionais(Model model) {
+		model.addAttribute("profissionais", profissionalRepo.findAll());//o primeiro parametro de addAtribute é o nome do atributo que vai ser enviado ao thymeleaf
+		return "lista-profissionais";
 	}
+	
+	//TODO: CRIAR PAGINA HTML PARA E TRATAR DADOS PELO THYMELEAF, não ta implementado ainda
+	//EXEMPLO LISTAR DADOS (especifico)
+	@PostMapping("perfil/{email}")//indica que a variavel vai ser enviada pela barra de endereços
+	public String exibirDadosProfissional(@PathVariable(name = "email") String email, Model model) {//@PathVariavel associa a variavel da barra de endereços ao parametro fornecido
+		
+		model.addAttribute("usuario", profissionalRepo.findByEmail(email));
+		
+		return "perfil-profissional";
+	}
+	
+	
+	
 }

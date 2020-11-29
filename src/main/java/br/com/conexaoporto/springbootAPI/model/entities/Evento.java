@@ -1,4 +1,4 @@
-package br.com.conexaoporto.springbootAPI.entities;
+package br.com.conexaoporto.springbootAPI.model.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
