@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Tela de Login</title>
+</head>
+	<body>
+		<form action="#" th:action="testRealizarLogin" method="post">
+			<label for="email">Email:</label>
+			<input type="text" name="email"><br><br>
+			
+			<label for="senha">Senha:</label>
+			<input type="text" name="senha"><br>
+			<button type="submit" value="Login">Login</button> 
+		</form>
+		<div th:if="${autenticacao} != null">
+		<p th:if="${autenticacao.estadoAutenticacao} == true" th:inline="text">Login bem sucedido para o usuário [[${autenticacao.usuario.nome}]]</p>
+		<p th:if="${autenticacao.estadoAutenticacao} == false" th:inline="text">Nome de usuário ou senha errada.</p>
+		</div>
+	</body>
+</html>

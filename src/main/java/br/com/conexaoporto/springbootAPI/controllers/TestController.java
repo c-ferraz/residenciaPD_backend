@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.conexaoporto.springbootAPI.model.entities.Profissional;
+import br.com.conexaoporto.springbootAPI.model.entities.Usuario;
+import br.com.conexaoporto.springbootAPI.model.helpers.autenticacaoHelper;
 import br.com.conexaoporto.springbootAPI.model.repositories.ProfissionalRepository;
 
 @Controller
@@ -85,5 +87,30 @@ public class TestController {//Esse controller contêm exemplos relacionados a a
 		profissionalRepo.save(profissional);
 		model.addAttribute("usuario", profissionalRepo.findById(id));
 		return("test/perfil-profissional");
+	}
+	
+	@GetMapping("/testLogin")
+	public String loginProfissional(Model model) {
+		
+		return "test/login-profissional";
+	}
+	
+	@PostMapping("/testRealizarLogin")
+	public String loginProfissional(
+			@RequestParam(name= "email") String email,
+			@RequestParam(name= "senha") String senha,
+			Model model) {
+		
+		Usuario usuario = (Usuario) profissionalRepo.findByEmail(email);
+		autenticacaoHelper autenticador = new autenticacaoHelper();
+		if (usuario.getSenha().contentEquals(senha)) {
+			autenticador.setUsuario(usuario);
+			autenticador.setEstadoAutenticacao(true);
+		} else {
+			autenticador.setEstadoAutenticacao(false);
+		}
+		model.addAttribute("autenticacao", autenticador);
+		
+		return "test/login-profissional";
 	}
 }

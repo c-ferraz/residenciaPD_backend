@@ -38,4 +38,17 @@ public class ProfissionalController {
 		return "home";
 	}
 	
+	@PostMapping("login")
+	public boolean login(@RequestParam(name= "email") String email,
+			@RequestParam(name= "senha") String senha,
+			Model model) {
+
+		Profissional usuario = profissionalRepo.findByEmail(email);
+		if (usuario.getSenha() == senha) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 }
