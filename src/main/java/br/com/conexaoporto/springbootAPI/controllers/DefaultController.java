@@ -26,6 +26,6 @@ public class DefaultController {
 	
 	@GetMapping(value= "/test")
 	public String testRedirect() {
-		return "/test/home";
+		return "test/home";
 	}
 }
