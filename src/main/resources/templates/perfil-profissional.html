@@ -2,29 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Lista Profissionais</title>
+<title>Dados de Perfil</title>
 </head>
 <body>
-<div th:switch="${profissionais}">
-	    <h2 th:case="null">Nenhum profissional encontrado!</h2>
-	        <div th:case="*">
-	            <h2>Profissionais</h2>
-	            <table>
-	                <thead>
-	                    <tr>
-	                        <th>Name</th>
-	                        <th>Email</th>
-	                    </tr>
-	                </thead>
-	                <tbody>
-	                <tr th:each="profissional : ${profissionais}">
-	                    <td th:text="${profissional.nome}"></td>
-	                    <td th:text="${profissional.email}"></td>
-	                </tr>
-	            </tbody>
-	        </table>
-	    </div>      
-	    <p><a href="/index">Retornar</a></p>
+	<div>
+	<p th:inline="text">Id: [[${usuario.codUsuario}]] </p>
+	<p th:inline="text">Nome: [[${usuario.nome}]] </p>
+	<p th:inline="text">Foto?: [[${usuario.foto}]] </p>
+	<p th:inline="text">Email: [[${usuario.email}]] </p>
+	<p th:inline="text">Ocupação: [[${usuario.ocupacao}]] </p>
+	<p th:inline="text">Area de Interesse: [[${usuario.areaDeInteresse}]] </p>
+	<p th:inline="text">Nível de Escolaridade: [[${usuario.nivelDeEscolaridade}]] </p>
+	<p th:inline="text">Descrição: [[${usuario.descricao}]] </p>
+	<form method="post" th:action="preloadAtualizarDados">
+	<input type="hidden" name="codUsuario" th:value="${usuario.codUsuario}">
+	<button type="submit" value="Editar">Editar</button>
+	</form>
 	</div>
+	<a href="/">Retornar</a>
 </body>
 </html>

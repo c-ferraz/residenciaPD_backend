@@ -1,7 +1,10 @@
 package br.com.conexaoporto.springbootAPI.model.repositories;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import br.com.conexaoporto.springbootAPI.model.entities.Profissional;

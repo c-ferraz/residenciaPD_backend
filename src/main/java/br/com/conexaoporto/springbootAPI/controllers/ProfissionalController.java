@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import br.com.conexaoporto.springbootAPI.model.entities.Profissional;
 import br.com.conexaoporto.springbootAPI.model.repositories.ProfissionalRepository;
 
@@ -42,21 +44,50 @@ public class ProfissionalController {
 	
 	//EXEMPLO LISTAR DADOS (todos)
 	@GetMapping("/ListarProfissionais")
-	public String listaProfissionais(Model model) {
+	public String listaProfissionais(Model model) {//Model é onde são guardados os dados para retornar ao thymeleaf
 		model.addAttribute("profissionais", profissionalRepo.findAll());//o primeiro parametro de addAtribute é o nome do atributo que vai ser enviado ao thymeleaf
 		return "lista-profissionais";
 	}
 	
-	//TODO: CRIAR PAGINA HTML PARA E TRATAR DADOS PELO THYMELEAF, não ta implementado ainda
 	//EXEMPLO LISTAR DADOS (especifico)
-	@PostMapping("perfil/{email}")//indica que a variavel vai ser enviada pela barra de endereços
-	public String exibirDadosProfissional(@PathVariable(name = "email") String email, Model model) {//@PathVariavel associa a variavel da barra de endereços ao parametro fornecido
+	@PostMapping("/Perfil")
+	public String exibirDadosProfissional(@RequestParam(name = "email") String email, Model model) {//@RequestParam associa a variavel da barra de endereços ao parametro fornecido
 		
 		model.addAttribute("usuario", profissionalRepo.findByEmail(email));
-		
 		return "perfil-profissional";
 	}
 	
+	@PostMapping("/preloadAtualizarDados")//Isso é um 'intermediario' para carregar os dados do usuario e retornar eles para a pagina certa
+	public String atualizarDadosProfissional2(@RequestParam(name= "codUsuario") long id, Model model) {
+		
+		model.addAttribute("usuario", profissionalRepo.findById(id));//Encontra o usuario baseado no id e salva as informações dele no model
+		return "atualizar-profissional";
+	}
 	
+	//EXEMPLO ATUALIZAR DADOS
+	@PostMapping("/AtualizarProfissional")
+	public String atualizarDadosProfissional(@RequestParam(name= "codUsuario") long id,
+			@RequestParam(name= "nome") String nome,			
+			@RequestParam(name= "telefone") String telefone,
+			@RequestParam(name= "senha") String senha,
+			@RequestParam(name= "descricao") String descricao,
+			@RequestParam(name= "areaDeInteresse") String areaDeInteresse,
+			@RequestParam(name= "ocupacao") String ocupacao,
+			@RequestParam(name= "nivelDeEscolaridade") String nivelDeEscolaridade,
+			Model model) {
+		Profissional profissional = profissionalRepo.findById(id); //Encontra os dados do ususario usando o ID
+		//Atualiza os valores do objeto com os mais recente, se o valor informado estiver em branco ele mandem o valor anterior
+		profissional.setNome(!nome.isEmpty() ? nome : profissional.getNome());
+		profissional.setSenha(!senha.isEmpty() ? senha : profissional.getSenha());
+		profissional.setTelefone(!telefone.isEmpty() ? telefone : profissional.getTelefone());
+		profissional.setDescricao(!descricao.isEmpty() ? descricao : profissional.getDescricao());
+		profissional.setAreaDeInteresse(!areaDeInteresse.isEmpty() ? areaDeInteresse : profissional.getAreaDeInteresse());
+		profissional.setOcupacao(!ocupacao.isEmpty() ? ocupacao : profissional.getOcupacao());		
+		profissional.setNivelDeEscolaridade(!nivelDeEscolaridade.isEmpty() ? nivelDeEscolaridade : profissional.getNivelDeEscolaridade());
+		
+		profissionalRepo.save(profissional);
+		model.addAttribute("usuario", profissionalRepo.findById(id));
+		return("perfil-profissional");
+	}
 	
 }
