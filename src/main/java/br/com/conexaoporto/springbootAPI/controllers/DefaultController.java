@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping
 public class DefaultController {
 	
-	@GetMapping(value= {"/", "/index", "/index.html"})//redireciona todos o requests GET do diretorio padrão (/) e (/index)
+	@GetMapping(value= {"/", "/index", "/index.html", "/home", "/home.html"})//redireciona todos o requests GET do diretorio padrão (/) e (/index)
 	public String indexRedirect(){
 		return "home";
 	}
