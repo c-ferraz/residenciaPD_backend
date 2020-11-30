@@ -14,11 +14,11 @@
 	<p th:inline="text">Area de Interesse: [[${usuario.areaDeInteresse}]] </p>
 	<p th:inline="text">Nível de Escolaridade: [[${usuario.nivelDeEscolaridade}]] </p>
 	<p th:inline="text">Descrição: [[${usuario.descricao}]] </p>
-	<form method="post" th:action="preloadAtualizarDados">
+	<form method="post" th:action="testpreloadAtualizarDados">
 	<input type="hidden" name="codUsuario" th:value="${usuario.codUsuario}">
 	<button type="submit" value="Editar">Editar</button>
 	</form>
 	</div>
-	<a href="/">Retornar</a>
+	<a href="/test">Retornar</a>
 </body>
 </html>

@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h1>Atualizar Perfil</h1>
-	<form action="#" th:action="AtualizarProfissional" th:object="${usuario}" method="post">
+	<form action="#" th:action="testAtualizarProfissional" th:object="${usuario}" method="post">
 		<p th:inline="text">Codigo do Usuario: [[${usuario.codUsuario}]] </p>
 		<input type="hidden" name="codUsuario" th:field="*{codUsuario}">
 		<label for="nome">Nome:</label><br>
