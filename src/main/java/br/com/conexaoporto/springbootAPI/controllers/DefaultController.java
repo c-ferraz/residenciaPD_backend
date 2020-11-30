@@ -14,12 +14,12 @@ public class DefaultController {
 		return "home";
 	}
 	
-	@GetMapping(value= "/login.html")
+	@GetMapping(value= {"/login.html", "login"})
 	public String loginRedirect() {
 		return "login";
 	}
 	
-	@GetMapping(value= "/cadastro.html")
+	@GetMapping(value= {"/cadastro.html", "/cadastro"})
 	public String cadastroRedirect() {
 		return "cadastro";
 	}

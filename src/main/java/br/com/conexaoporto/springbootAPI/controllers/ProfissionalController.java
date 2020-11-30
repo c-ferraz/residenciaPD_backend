@@ -19,6 +19,23 @@ import br.com.conexaoporto.springbootAPI.model.repositories.ProfissionalReposito
 @RequestMapping
 public class ProfissionalController {
 	
+	@Autowired
+	ProfissionalRepository profissionalRepo;
 	
+	@PostMapping("/CadastrarProfissional")
+	public String cadastro (@RequestParam(name= "nome") String nome,
+			@RequestParam(name="senha") String senha,
+			@RequestParam(name="email") @Valid String email,
+			Model model)
+			 {
+		if (profissionalRepo.findByEmail(email) != null) {
+			model.addAttribute("emailError", "O email informado já esta cadastrado.");
+			return "cadastro";
+		}
+		
+		profissionalRepo.save(new Profissional(nome, email, senha));
+		//return "redirect:/testListarProfissionais";
+		return "home";
+	}
 	
 }
