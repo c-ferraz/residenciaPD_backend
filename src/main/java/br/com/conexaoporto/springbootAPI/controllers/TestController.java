@@ -1,5 +1,6 @@
 package br.com.conexaoporto.springbootAPI.controllers;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,14 +96,15 @@ public class TestController {//Esse controller contêm exemplos relacionados a a
 		return "test/login-profissional";
 	}
 	
-	@PostMapping("/testRealizarLogin")
+	@PostMapping("/testLogin")
 	public String loginProfissional(
 			@RequestParam(name= "email") String email,
 			@RequestParam(name= "senha") String senha,
-			Model model) {
+			Model model,
+			HttpSession session) { //inicia seção
 		
 		Usuario usuario = (Usuario) profissionalRepo.findByEmail(email);
-		autenticacaoHelper autenticador = new autenticacaoHelper();
+		autenticacaoHelper autenticador = new autenticacaoHelper();//essa classe armazena informações para transmitir tudo de uma vez pelo model
 		if (usuario.getSenha().contentEquals(senha)) {
 			autenticador.setUsuario(usuario);
 			autenticador.setEstadoAutenticacao(true);
@@ -110,7 +112,7 @@ public class TestController {//Esse controller contêm exemplos relacionados a a
 			autenticador.setEstadoAutenticacao(false);
 		}
 		model.addAttribute("autenticacao", autenticador);
-		
+		//session.setAttribute("auth", usuario.getCodUsuario()); //para adicionar atributo a seção, pode ser acessado pelo thymeleaf
 		return "test/login-profissional";
 	}
 }
