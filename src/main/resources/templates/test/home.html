@@ -11,7 +11,7 @@
 	<button onclick="location.href = '/testNovoProfissional';" class="submit-button">Cadastro Profissional</button>
 	<button onclick="location.href = '/testListarProfissionais';" class="submit-button">Listar Profissionais</button>
 	<button onclick="location.href = '/testLogin';" class="submit-button">Login Profissionais</button>
-	<button th:onclick="'onLogout();'" id="logout" class="submit-button">Log Out</button><br>
+	<button th:if="${session.auth} != null" onclick="location.href = '/userLogout';" id="logout">Log Out</button><br>
 	<div>
 		<p>Pesquisar Profissional:</p>
 		<form action="#" th:action="testPerfil" method="post">
@@ -20,13 +20,6 @@
 			<input type="submit" value="Pesquisar">
 		</form>
 	</div>
-	<script th:inline="javascript">
-		var logoutBtn = document.getElementById('logout');
-		if (sessionStorage.getItem('userId') == null){
-			logoutBtn.style.display =  'none';
-		} else {
-			logoutBtn.style.visibility = 'inline';
-		}
-	</script>
+
 </body>
 </html>
