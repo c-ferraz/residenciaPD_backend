@@ -23,9 +23,5 @@ public class DefaultController {
 	public String cadastroRedirect() {
 		return "cadastro";
 	}
-	
-	@GetMapping(value= "/test")
-	public String testRedirect() {
-		return "test/home";
-	}
+
 }

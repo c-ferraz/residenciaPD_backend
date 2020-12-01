@@ -22,6 +22,11 @@ public class TestController {//Esse controller contêm exemplos relacionados a a
 	@Autowired
 	ProfissionalRepository profissionalRepo;//contem os metodos que vão fazer o CRUD
 	
+	@GetMapping(value= "/test")
+	public String testRedirect() {
+		return "test/home";
+	}
+	
 	@GetMapping("/testNovoProfissional")//<- anotação para tratamento de metodos GET
 	public String mostrarCadastro(Profissional profissional) {//A magica do spring entende a 
 		return "test/novo-profissional";//o retorno deve ser uma string com o nome da pagina que você quer acessar
@@ -112,7 +117,14 @@ public class TestController {//Esse controller contêm exemplos relacionados a a
 			autenticador.setEstadoAutenticacao(false);
 		}
 		model.addAttribute("autenticacao", autenticador);
-		//session.setAttribute("auth", usuario.getCodUsuario()); //para adicionar atributo a seção, pode ser acessado pelo thymeleaf
+		session.setAttribute("auth", usuario.getCodUsuario()); //para adicionar atributo a seção, pode ser acessado pelo thymeleaf
+		session.setMaxInactiveInterval(60); //tempo de timeout para a seção em segundos
 		return "test/login-profissional";
+	}
+	
+	@GetMapping("/userLogout")
+	public String userLogout(HttpSession session) {
+		session.removeAttribute("auth");
+		return "test/home";
 	}
 }
