@@ -2,18 +2,18 @@ package br.com.conexaoporto.springbootAPI.model.helpers;
 
 import br.com.conexaoporto.springbootAPI.model.entities.Usuario;
 
-public class autenticacaoHelper {
+public class AutenticacaoHelper {
 	private Usuario usuario;
 	private boolean estadoAutenticacao;
 	
-	public autenticacaoHelper() {
+	public AutenticacaoHelper() {
 		super();
 	}
 	
-	public autenticacaoHelper(Usuario usuario, boolean estadoAutenticacao) {
+	public AutenticacaoHelper(Usuario usuario) {
 		super();
 		this.usuario = usuario;
-		this.estadoAutenticacao = estadoAutenticacao;
+		this.estadoAutenticacao = false;
 	}
 	
 	public Usuario getUsuario() {
