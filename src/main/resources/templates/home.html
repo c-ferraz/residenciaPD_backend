@@ -27,7 +27,7 @@
     <header>
         <div class="container" id="nav-container">
             <nav class="navbar navbar-expand-lg fixed-top">
-                <a href="home.html" class="navbar-brand" >
+                <a class="navbar-brand" href="index.html">
                     <img id="logo" src="../static/img/logo_conexao_porto.png" th:src="@{/img/logo_conexao_porto.png}" alt="Conexao Porto">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-links" aria-controls="navbar-links">
@@ -36,8 +36,8 @@
                 <div class="collapse navbar-collapse justify-content-end" id="navbar-links">
                     <div class="navbar-nav">
                         <a class="nav-item nav-links" id="sobre-menu" href="#sobre-area">Sobre nós</a>
-                        <a class="nav-item nav-links" id="cadastro-menu" href="cadastro.html">Cadastre-se</a>
-                        <a class="nav-item nav-links" id="login-menu" href="login.html">Login</a>
+                        <a class="nav-item nav-links" id="cadastro-menu" href="/cadastro.html">Cadastre-se</a>
+                        <a class="nav-item nav-links" id="login-menu" href="/login.html">Login</a>
                     </div>
                 </div>
             </nav>
@@ -58,7 +58,7 @@
                 <div class="carousel-inner">
                     <!--Slide 1-->
                     <div class="carousel-item active">
-                        <img src="../static/img/banner1.png" th:src="@{img/banner1.png}" class="d-block w-100" alt="imagem 1">
+                        <img src="../static/img/banner1.png" th:src="@{/img/banner1.png}" class="d-block w-100" alt="imagem 1">
                         <div class="carousel-caption d-nome d-md-block">
                             <h2>Quer criar um e-commerce?</h2>
                             <p>Conte conosco, temos mais de 30 lojas no portifólio.</p>
@@ -102,7 +102,7 @@
                             <h3 class="main-title">Sobre a Conexão Porto</h3>
                         </div>
                         <div class="col-md-6">
-                            <img class="img-fluid" src="img/agencia.jpg" alt="Conexão Porto">
+                            <img class="img-fluid" src="../static/img/agencia.jpg" th:src="@{/img/agencia.jpg}" alt="Conexão Porto">
                         </div>
 
                         <div class="col-md-6">
@@ -119,7 +119,6 @@
                                 <li><i class="fas fa-check"></i> Nemo enim ipsam voluptatem quia voluptas</li>
                             </ul>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -127,5 +126,4 @@
     </main>
 
 </body>
-
 </html>
