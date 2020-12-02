@@ -102,20 +102,14 @@ public class TestController {// Esse controller contêm exemplos relacionados a 
 
 	@PostMapping("/testLogin")
 	public String loginProfissional(@RequestParam(name = "email") String email,
-			@RequestParam(name = "senha") String senha, Model model, HttpSession session) { // inicia seção
-
+			@RequestParam(name = "senha") String senha, Model model, HttpSession session) { // chama os dados sobre 
 		Usuario usuario = profissionalRepo.findByEmail(email) != null ? (Usuario) profissionalRepo.findByEmail(email) : null;
-		AutenticacaoHelper autenticador = new AutenticacaoHelper();// essa classe armazena informações para transmitir tudo de uma vez pelo model
 		if ((usuario != null) && usuario.getSenha().contentEquals(senha)) {
-			autenticador.setUsuario(usuario);
 			session.setAttribute("auth", usuario.getCodUsuario()); // autenticacao usando variavel de sessao
 			session.setMaxInactiveInterval(60);// tempo de timeout da seção em segundos
-			autenticador.setEstadoAutenticacao(true);
 		} else {
-			autenticador.setEstadoAutenticacao(false);
+			return "test/home";
 		}
-
-		model.addAttribute("autenticacao", autenticador); //retorna um objeto autenticacao ao thymeleaf com os dados do usuario e se a autenticacao foi bem sucedida
 		return "test/login-profissional";
 	}
 

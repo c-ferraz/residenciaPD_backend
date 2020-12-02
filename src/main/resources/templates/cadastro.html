@@ -72,6 +72,7 @@
                                 <input class="form-control" type="text" name="confirmacao-senha" id="confirmacao-senha"
                                     placeholder="Confirme a senha">
                             </div>
+                            <div th:if="${emailError} != null"><span style="color:red">[[${emailError}]]</span></div>
                             <div class="form-group text-center">
                                 <button type="submit" class="btn btn-primary">Cadastrar</button>
                             </div>

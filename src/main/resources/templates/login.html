@@ -45,14 +45,14 @@
                         <form action="#" th:action="login" method="post">
                             <div class="form-group">
                                 <label for="email">Email:</label>
-                                <input class="form-control" type="email" nome="email" id="email" placeholder="Informe seu email">
+                                <input class="form-control" type="email" name="email" id="email" placeholder="Informe seu email">
                             </div>
         
                             <div class="form-group">
                                 <label for="senha">Senha:</label>
-                                <input class="form-control" type="text" nome="senha" id="senha" placeholder="Informe uma senha">
+                                <input class="form-control" type="text" name="senha" id="senha" placeholder="Informe uma senha">
                             </div>
-        
+        					<div th:if="${erroDeAutenticacao} != null"><span style="color:red">[[${erroDeAutenticacao}]]</span></div>
                             <div class="form-group text-center">
                                 <button type="submit" class="btn btn-primary">Login</button>
                             </div>
